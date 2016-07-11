@@ -30,6 +30,7 @@ angular.module('ui.scroll', []).directive('uiScrollViewport', function () {
       var self = this;
       self.container = element;
       self.viewport = element;
+      self.cachedScope = scope;
 
       angular.forEach(element.children(), function (child) {
         if (child.tagName.toLowerCase() === 'tbody') {
@@ -416,8 +417,7 @@ angular.module('ui.scroll', []).directive('uiScrollViewport', function () {
     return viewport;
   }
 
-  function Adapter($attr, viewport, buffer, adjustBuffer) {
-    var viewportScope = viewport.scope() || $rootScope;
+  function Adapter($attr, viewport, viewportScope, buffer, adjustBuffer) {
     var disabled = false;
     var self = this;
 
@@ -538,7 +538,6 @@ angular.module('ui.scroll', []).directive('uiScrollViewport', function () {
           if (!scope) throw new Error('Failed to locate target controller \'' + controllerName + '\' to inject \'' + target + '\'');
           */
           if (controllerName) {
-            // just find the controller on the damn scope ya eedjit
             if (!scope[controllerName]) throw new Error('Failed to locate target controller \'' + controllerName + '\' to inject \'' + target + '\'');
           }
         }
@@ -592,7 +591,7 @@ angular.module('ui.scroll', []).directive('uiScrollViewport', function () {
 
     var buffer = new Buffer(bufferSize);
     var viewport = new Viewport(buffer, element, viewportController, $attr);
-    var adapter = new Adapter($attr, viewport, buffer, adjustBuffer);
+    var adapter = new Adapter($attr, viewport, viewportController.cachedScope, buffer, adjustBuffer);
     if (viewportController) viewportController.adapter = adapter;
 
     var isDatasourceValid = function isDatasourceValid() {
