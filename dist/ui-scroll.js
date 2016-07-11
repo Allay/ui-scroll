@@ -1,7 +1,7 @@
 /*!
- * angular-ui-scroll
- * https://github.com/angular-ui/ui-scroll.git
- * Version: 1.5.1 -- 2016-07-08T21:21:05.311Z
+ * Allay FORK of angular-ui-scroll
+ * https://github.com/Allay/ui-scroll.git
+ * Version: 1.5.2 -- 2016-07-11T05:16:02.000Z
  * License: MIT
  */
  
@@ -524,6 +524,7 @@ angular.module('ui.scroll', []).directive('uiScrollViewport', function () {
         var target = match[1];
         var controllerName = match[2];
         if (controllerName) {
+          /*
           var candidate = viewport;
           scope = undefined;
           while (candidate.length) {
@@ -535,6 +536,11 @@ angular.module('ui.scroll', []).directive('uiScrollViewport', function () {
             candidate = candidate.parent();
           }
           if (!scope) throw new Error('Failed to locate target controller \'' + controllerName + '\' to inject \'' + target + '\'');
+          */
+          if (controllerName) {
+            // just find the controller on the damn scope ya eedjit
+            if (!scope[controllerName]) throw new Error('Failed to locate target controller \'' + controllerName + '\' to inject \'' + target + '\'');
+          }
         }
         assign = $parse(target).assign;
       }
