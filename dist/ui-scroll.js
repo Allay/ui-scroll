@@ -519,7 +519,7 @@ angular.module('ui.scroll', []).directive('uiScrollViewport', function () {
       var scope = viewportScope;
       var assign = undefined;
       if (expression) {
-        var match = expression.match(/^(\S+)(?:\s+on\s+(\w(?:\w|\d)*))?$/);
+        var match = expression.match(/^(\S+)(?:\s+on\s+(\w(?:\w|\d)*))?/);
         if (!match) throw new Error('Expected injection expression in form of \'target\' or \'target on controller\' but got \'' + expression + '\'');
         var target = match[1];
         var controllerName = match[2];
